@@ -1,0 +1,7 @@
+h1 { text-align: center }
+div.canvas { text-align: center }
+canvas { border: thick outset lightgray }
+div.loglabel { font-weight: bold }
+#log { border: medium inset lightgray; padding-top: 3px; padding-left: 5px;
+       width: 600px; min-height: 200px }
+span.logtimestamp { color: lightgray }
