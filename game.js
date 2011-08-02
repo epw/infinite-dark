@@ -55,6 +55,11 @@ Player.prototype.apply_gravity =
     }
 };
 
+Platform.prototype = new Game_Object;
+function Platform(){
+    Game_Object.call ( this, "platform.png", 1, 60, BOTTOM);
+}
+
 function draw () {
     ctx = canvas.getContext ('2d');
 
