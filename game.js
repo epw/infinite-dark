@@ -5,7 +5,7 @@ var keys = {};
 
 var player;
 
-var BOTTOM = 460;
+var BOTTOM = 447;
 
 function log (s) {
     $("#log").append ("<div class=\"logentry\">");
@@ -16,7 +16,7 @@ function log (s) {
 
 Player.prototype = new Game_Object;
 function Player () {
-    Game_Object.call (this, "sphere.png", 1, 20, 460);
+    Game_Object.call (this, "elf.png", 1,30 , BOTTOM);
     this.speed = 5;
     this.jump_speed = 20;
 }
