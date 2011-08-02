@@ -5,6 +5,8 @@ var keys = {};
 
 var player;
 
+var BOTTOM = 460;
+
 function log (s) {
     $("#log").append ("<div class=\"logentry\">");
     $("#log").append ("<span class=\"logtimestamp\">"
@@ -14,8 +16,9 @@ function log (s) {
 
 Player.prototype = new Game_Object;
 function Player () {
-    Game_Object.call (this, "sphere.png", 1, 40, 40);
+    Game_Object.call (this, "sphere.png", 1, 20, 460);
     this.speed = 5;
+    this.jump_speed = 20;
 }
 Player.prototype.try_move =
     function (vx, vy) {
@@ -37,13 +40,20 @@ Player.prototype.update =
 	    player.try_move (player.speed, 0);
 	}
 	if (keys[KEY.UP]) {
-	    player.try_move (0, -player.speed);
+	    player.try_move (0, -player.jump_speed);
 	}
 	if (keys[KEY.DOWN]) {
 	    player.try_move (0, player.speed);
 	}
+	player.apply_gravity();
 	Game_Object.prototype.update.call (this);
     };
+Player.prototype.apply_gravity =
+    function (){
+    if(player.y != BOTTOM){
+	player.y += 5;
+    }
+};
 
 function draw () {
     ctx = canvas.getContext ('2d');
