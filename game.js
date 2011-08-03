@@ -19,6 +19,7 @@ function Player () {
     Game_Object.call (this, "elf.png", 1,30 , BOTTOM);
     this.speed = 5;
     this.jump_speed = 20;
+    this.isJumping = false;
 }
 Player.prototype.try_move =
     function (vx, vy) {
@@ -40,7 +41,10 @@ Player.prototype.update =
 	    player.try_move (player.speed, 0);
 	}
 	if (keys[KEY.UP]) {
-	    player.try_move (0, -player.jump_speed);
+	    if(player.isJumping == false){
+		    player.try_move (0, -player.jump_speed);
+		    player.isJumping = true;
+		}
 	}
 	if (keys[KEY.DOWN]) {
 	    player.try_move (0, player.speed);
@@ -50,14 +54,26 @@ Player.prototype.update =
     };
 Player.prototype.apply_gravity =
     function (){
-    if(player.y != BOTTOM){
-	player.y += 5;
+    if(player.isJumping == true){
+	if(player.y != BOTTOM){
+	    if(player.touching(platform)){
+		this.vy = 0;
+		this.isJumping = false;
+	    }
+	    else{
+		player.y += 3;
+	    }
+	}
+	else{
+	    player.isJumping = false;
+	    this.vy = 0;
+	}
     }
 };
 
 Platform.prototype = new Game_Object;
 function Platform(){
-    Game_Object.call ( this, ctx.fillRect(60,BOTTOM+50,), 1, 60, BOTTOM);
+    Game_Object.call ( this, "platform.png", 1, 60, BOTTOM);
 }
 
 function draw () {
@@ -70,6 +86,7 @@ function draw () {
 
     ctx.restore ();
 
+    platform.draw(ctx);
     player.draw (ctx);
 }
 
@@ -98,6 +115,7 @@ function init () {
     canvas = document.getElementById("canvas");
 
     player = new Player ();
+    platform = new Platform();
 
     main_loop = setInterval (update, 1000.0 / FRAME_RATE);
 }
