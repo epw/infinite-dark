@@ -55,7 +55,7 @@ Player.prototype.update =
 Player.prototype.apply_gravity =
     function (){
     if(player.isJumping == true){
-	if(player.y != BOTTOM){
+	if(player.y <= BOTTOM){
 	    if(player.touching(platform)){
 		player.vy = 0;
 		player.isJumping = false;
@@ -67,6 +67,7 @@ Player.prototype.apply_gravity =
 	else{
 	    player.isJumping = false;
 	    player.vy = 0;
+	    player.y = BOTTOM;
 	}
     }
 };
@@ -92,7 +93,6 @@ function draw () {
 
 function update () {
     player.update ();
-    console.log(player.isJumping);
     draw ();
 }
 
