@@ -16,10 +16,11 @@ function log (s) {
 
 Player.prototype = new Game_Object;
 function Player () {
-    Game_Object.call (this, "elf.png", 1,30 , BOTTOM);
+    Game_Object.call (this, "elf.png", 1, 30, BOTTOM);
     this.speed = 5;
-    this.jump_speed = 20;
+    this.jump_speed = 50;
     this.isJumping = false;
+    this.isOnPlatform = false;
 }
 Player.prototype.try_move =
     function (vx, vy) {
@@ -56,7 +57,7 @@ Player.prototype.apply_gravity =
     function (){
     if(player.isJumping == true){
 	if(player.y <= BOTTOM){
-	    if(player.touching(platform)){
+	    if(player.isOn(platform)){
 		player.vy = 0;
 		player.isJumping = false;
 	    }
@@ -70,7 +71,24 @@ Player.prototype.apply_gravity =
 	    player.y = BOTTOM;
 	}
     }
+    if(player.isOnPlatform == true){
+	if(!player.touching(platform)){
+	    player.isOnPlatform = false;
+	    player.isJumping = true;
+	}
+    }
 };
+Player.prototype.isOn =
+    function (Game_Object){
+    if(player.touching(Game_Object)){
+	console.log("Touching!");
+	if(player.y - player.height == Game_Object.y){
+	    console.log("Above!");
+	    player.isOnPlatform = true;
+	}
+    }
+    return;
+}
 
 Platform.prototype = new Game_Object;
 function Platform(){
