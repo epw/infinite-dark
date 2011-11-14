@@ -43,7 +43,8 @@ Player.prototype.update =
 	}
 	if (keys[KEY.UP]) {
 	    if(player.isJumping == false){
-		    player.try_move (0, -player.jump_speed);
+		player.vy = player.jump_speed;
+		player.try_move(0, player.speed);
 		    player.isJumping = true;
 		}
 	}
@@ -62,7 +63,7 @@ Player.prototype.apply_gravity =
 		player.isJumping = false;
 	    }
 	    else{
-		player.y += 3;
+		player.vy += 1;
 	    }
 	}
 	else{
